@@ -1,0 +1,27 @@
+name: open-object
+namespace: kube-system
+driver: object.csi.guodoliu.com
+
+images:
+  object:
+    image: inspire-studio-dev-registry.cn-wulanchabu.cr.aliyuncs.com/base/open-object
+    tag: v0.1.1-beta
+  provisioner:
+    image: inspire-studio-dev-registry.cn-wulanchabu.cr.aliyuncs.com/base/csi-provisioner
+    tag: v3.6.0
+  registrar:
+    image: inspire-studio-dev-registry.cn-wulanchabu.cr.aliyuncs.com/base/csi-node-driver-registrar
+    tag: v2.5.0
+  resizer:
+    image: inspire-studio-dev-registry.cn-wulanchabu.cr.aliyuncs.com/base/csi-resizer
+    tag: v1.9.0
+
+global:
+  kubelet_dir: "/mnt/kubelet"
+
+minio:
+  host: "http://192.168.165.50:9000"
+  accesskey: "NvmbqoUxn50jqcHlHBEG"
+  secretkey: "EAGogws8UcIA8WuBMOuGDRKIC7MXvWcswD3dHpzW"
+  region: "china"
+  

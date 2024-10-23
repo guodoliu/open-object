@@ -1,0 +1,16 @@
+.idea/
+.vscode/
+
+# This is where the result of the go build goes
+/output*/
+/_output*/
+/_output
+bin/
+
+# Go test binaries
+*.test
+
+# Godeps or dep workspace
+/Godeps/_workspace
+*.tar
+*.tgz

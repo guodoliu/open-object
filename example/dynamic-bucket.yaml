@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-object
+  labels:
+    app: nginx-object
+spec:
+  ports:
+    - port: 80
+      name: web
+  clusterIP: None
+  selector:
+    app: nginx-object
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-object
+spec:
+  selector:
+    matchLabels:
+      app: nginx-object
+  podManagementPolicy: Parallel
+  serviceName: "nginx-object"
+  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: html
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: open-object-s3minio
+        resources:
+          requests:
+            storage: 5Gi
+  template:
+    metadata:
+      labels:
+        app: nginx-object
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: nginx
+          image: inspire-studio-dev-registry.cn-wulanchabu.cr.aliyuncs.com/base/nginx:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: "/data"
+              name: html
+          command:
+            - sh
+            - "-c"
+            - |
+              while true; do
+                echo "huizhi testing";
+                echo "yes ">>/data/yes.txt;
+                sleep 120s
+              done;
